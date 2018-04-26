@@ -890,10 +890,10 @@ class SvgPathNormalizer {
   }
 
   Offset _mapPoint(Matrix4 transform, Offset point) {
-    // a, b, 0.0, 0.0, c, d, 0.0, 0.0, e, f, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0
+    // a, b, 0.0, 0.0, c, d, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, e, f, 0.0, 1.0
     return new Offset(
-      (transform[0] * point.dx + transform[4] * point.dy + transform[8]),
-      (transform[1] * point.dx + transform[5] * point.dy + transform[9]),
+      (transform[0] * point.dx + transform[4] * point.dy + transform[12]),
+      (transform[1] * point.dx + transform[5] * point.dy + transform[13]),
     );
   }
 }
