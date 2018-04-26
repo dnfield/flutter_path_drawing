@@ -1,5 +1,5 @@
 name: path_drawing
-version: 0.1.0
+version: 0.1.1
 description: >
   A flutter library to help with (Canvas) Path creation and manipulation
 author: Dan Field <dfield@gmail.com>
