@@ -332,7 +332,7 @@ packages:
     source: hosted
     version: "1.0.0"
   test:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: test
       url: "https://pub.dartlang.org"

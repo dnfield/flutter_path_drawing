@@ -1,7 +1,6 @@
 // Test paths taken from:
 //   * https://github.com/chromium/chromium/blob/master/third_party/blink/renderer/core/svg/svg_path_parser_test.cc
 
-import 'dart:ui';
 import 'package:test/test.dart';
 
 import 'package:path_drawing/src/parse_path.dart';
