@@ -17,7 +17,14 @@ import 'package:vector_math/vector_math.dart' show Matrix4;
 const double _twoPiFloat = pi * 2.0;
 const double _piOverTwoFloat = pi / 2.0;
 
+/// Creates a [Path] object from an SVG data string.
+///
+/// Passing a null string as `svg` will result in a null path.
+/// Passing an empty string will result in an empty path.
 Path parseSvgPathData(String svg) {
+  if (svg == null) return null;
+  if (svg == '') return new Path();
+
   final SvgPathStringSource parser = new SvgPathStringSource(svg);
   final Path path = new Path();
   final SvgPathNormalizer normalizer = new SvgPathNormalizer();
@@ -581,7 +588,7 @@ class OffsetHelper {
 
   /// Blend the points with a ratio (1/3):(2/3).
   static Offset blendPoints(Offset p1, Offset p2) {
-    return Offset((p1.dx + 2 * p2.dx) * _kOneOverThree,
+    return new Offset((p1.dx + 2 * p2.dx) * _kOneOverThree,
         (p1.dy + 2 * p2.dy) * _kOneOverThree);
   }
 }
@@ -808,7 +815,7 @@ class SvgPathNormalizer {
     pointTransform.rotateZ(-angle);
 
     Offset transformedMidPoint = _mapPoint(
-        pointTransform, Offset(midPointDistance.dx, midPointDistance.dy));
+        pointTransform, new Offset(midPointDistance.dx, midPointDistance.dy));
     double squareRx = rx * rx;
     double squareRy = ry * ry;
     double squareX = transformedMidPoint.dx * transformedMidPoint.dx;
@@ -868,7 +875,7 @@ class SvgPathNormalizer {
       final double sinEndTheta = sin(endTheta);
       final double cosEndTheta = cos(endTheta);
 
-      point1 = Offset(
+      point1 = new Offset(
           cosStartTheta - t * sinStartTheta, sinStartTheta + t * cosStartTheta);
       point1.translate(centerPoint.dx, centerPoint.dy);
       final Offset targetPoint = new Offset(cosEndTheta, sinEndTheta);
