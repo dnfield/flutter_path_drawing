@@ -12,12 +12,12 @@ import 'package:meta/meta.dart';
 /// Passing in a null `source` will result in a null result.  Passing a `source`
 /// that is an empty path will return the `source`.
 Path dashPath(Path source,
-    {@required CircularIntervalList<double> dashArray,
-    DashOffset dashOffset = const DashOffset.absolute(0.0)}) {
+    {@required CircularIntervalList<double> dashArray, DashOffset dashOffset}) {
   if (source == null) {
     return null;
   }
 
+  dashOffset = dashOffset ?? const DashOffset.absolute(0.0);
   // TODO: Is there some way to determine how much of a path would be visible today?
 
   bool some = false;
