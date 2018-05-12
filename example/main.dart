@@ -13,13 +13,13 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -64,15 +64,19 @@ class PathTestPainter extends CustomPainter {
     ..color = Colors.red
     ..strokeWidth = 1.0
     ..style = PaintingStyle.stroke;
+
+  @override
   bool shouldRepaint(PathTestPainter old) => true;
 
+  @override
   void paint(Canvas canvas, Size size) {
     canvas.drawPath(p, red);
     canvas.drawPath(p2, black);
     canvas.translate(0.0, -100.0);
     canvas.drawPath(
         dashPath(p2,
-            dashArray: new CircularIntervalList([5.0, 10.0, 15.0, 15.0]),
+            dashArray: new CircularIntervalList<double>(
+                <double>[5.0, 10.0, 15.0, 15.0]),
             dashOffset: new DashOffset.percentage(.05)),
         red);
     // canvas

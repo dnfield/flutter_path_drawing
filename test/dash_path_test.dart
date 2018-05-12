@@ -4,9 +4,9 @@ import 'package:test/test.dart';
 
 void main() {
   test('CircularList tests', () {
-    List<int> ints = [1, 2, 3];
+    final List<int> ints = <int>[1, 2, 3];
 
-    CircularIntervalList list = new CircularIntervalList(ints);
+    final CircularIntervalList<int> list = new CircularIntervalList<int>(ints);
 
     expect(list.next, 1);
     expect(list.next, 2);

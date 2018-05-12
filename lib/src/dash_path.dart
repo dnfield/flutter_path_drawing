@@ -22,12 +22,12 @@ Path dashPath(Path source,
 
   bool some = false;
 
-  Path dest = new Path();
+  final Path dest = new Path();
   for (final PathMetric metric in source.computeMetrics()) {
     double distance = dashOffset._calculate(metric.length);
     bool draw = true;
     while (distance < metric.length) {
-      double len = dashArray.next;
+      final double len = dashArray.next;
       if (draw) {
         dest.addPath(metric.extractPath(distance, distance + len), Offset.zero);
       }
@@ -94,7 +94,9 @@ class CircularIntervalList<T> {
   int _idx = 0;
 
   T get next {
-    if (_idx >= _vals.length) _idx = 0;
+    if (_idx >= _vals.length) {
+      _idx = 0;
+    }
     return _vals[_idx++];
   }
 }

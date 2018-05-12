@@ -10,8 +10,9 @@
 //   * https://github.com/chromium/chromium/blob/master/third_party/blink/renderer/core/html/parser/html_parser_idioms.h (IsHTMLSpace)
 //   * https://github.com/chromium/chromium/blob/master/third_party/blink/renderer/core/svg/svg_path_parser_test.cc
 
-import 'dart:ui' show Path, Offset;
 import 'dart:math' show sqrt, max, pi, tan, sin, cos, pow;
+import 'dart:ui' show Path, Offset;
+
 import 'package:vector_math/vector_math.dart' show Matrix4;
 
 const double _twoPiFloat = pi * 2.0;
@@ -22,8 +23,12 @@ const double _piOverTwoFloat = pi / 2.0;
 /// Passing a null string as `svg` will result in a null path.
 /// Passing an empty string will result in an empty path.
 Path parseSvgPathData(String svg) {
-  if (svg == null) return null;
-  if (svg == '') return new Path();
+  if (svg == null) {
+    return null;
+  }
+  if (svg == '') {
+    return new Path();
+  }
 
   final SvgPathStringSource parser = new SvgPathStringSource(svg);
   final Path path = new Path();
@@ -114,7 +119,8 @@ class AsciiConstants {
   }
 
   /// Map to go from ASCII constant to [SvgPathSegType]
-  static const Map<int, SvgPathSegType> letterToSegmentType = const {
+  static const Map<int, SvgPathSegType> letterToSegmentType =
+      const <int, SvgPathSegType>{
     upperZ: SvgPathSegType.close,
     lowerZ: SvgPathSegType.close,
     upperM: SvgPathSegType.moveToAbs,
@@ -272,8 +278,7 @@ class SvgPathStringSource {
   List<int> _codePoints;
   int _idx;
 
-  SvgPathStringSource(String string) {
-    assert(string != null);
+  SvgPathStringSource(String string) : assert(string != null) {
     _previousCommand = SvgPathSegType.unknown;
     _codePoints = string.codeUnits;
     _idx = 0;
@@ -302,7 +307,9 @@ class SvgPathStringSource {
   }
 
   bool _skipOptionalSvgSpaces() {
-    while (_idx < _codePoints.length && _isHtmlSpace(_codePoints[_idx])) _idx++;
+    while (_idx < _codePoints.length && _isHtmlSpace(_codePoints[_idx])) {
+      _idx++;
+    }
     return _idx < _codePoints.length;
   }
 
@@ -310,7 +317,9 @@ class SvgPathStringSource {
       [int delimiter = AsciiConstants.comma]) {
     if (_idx < _codePoints.length &&
         !_isHtmlSpace(_codePoints[_idx]) &&
-        _codePoints[_idx] != delimiter) return false;
+        _codePoints[_idx] != delimiter) {
+      return false;
+    }
     if (_skipOptionalSvgSpaces()) {
       if (_idx < _codePoints.length && _codePoints[_idx] == delimiter) {
         _idx++;
@@ -362,7 +371,7 @@ class SvgPathStringSource {
 
     // read the sign
     int sign = 1;
-    int end = _codePoints.length;
+    final int end = _codePoints.length;
     if (_idx < end && _codePoints[_idx] == AsciiConstants.plus)
       _idx++;
     else if (_idx < end && _codePoints[_idx] == AsciiConstants.minus) {
@@ -396,7 +405,9 @@ class SvgPathStringSource {
         multiplier *= 10;
       }
       // Bail out early if this overflows.
-      if (!_isValidRange(integer)) throw new StateError('Numeric overflow');
+      if (!_isValidRange(integer)) {
+        throw new StateError('Numeric overflow');
+      }
     }
 
     double decimal = 0.0;
@@ -458,14 +469,22 @@ class SvgPathStringSource {
         exponent += _codePoints[_idx] - AsciiConstants.number0;
         _idx++;
       }
-      if (exponentIsNegative) exponent = -exponent;
+      if (exponentIsNegative) {
+        exponent = -exponent;
+      }
       // Make sure exponent is valid.
-      if (!_isValidExponent(exponent)) throw new StateError('Invalid exponent');
-      if (exponent != 0) number *= pow(10.0, exponent);
+      if (!_isValidExponent(exponent)) {
+        throw new StateError('Invalid exponent');
+      }
+      if (exponent != 0) {
+        number *= pow(10.0, exponent);
+      }
     }
 
     // Don't return Infinity() or NaN().
-    if (!_isValidRange(number)) throw new StateError('Numeric overflow');
+    if (!_isValidRange(number)) {
+      throw new StateError('Numeric overflow');
+    }
 
     // if (mode & kAllowTrailingWhitespace)
     _skipOptionalSvgSpacesOrDelimiter();
@@ -474,7 +493,9 @@ class SvgPathStringSource {
   }
 
   bool _parseArcFlag() {
-    if (!hasMoreData) throw new StateError('Expected more data');
+    if (!hasMoreData) {
+      throw new StateError('Expected more data');
+    }
     final int flagChar = _codePoints[_idx];
     _idx++;
     _skipOptionalSvgSpacesOrDelimiter();
@@ -497,8 +518,8 @@ class SvgPathStringSource {
 
   PathSegmentData parseSegment() {
     assert(hasMoreData);
-    PathSegmentData segment = new PathSegmentData();
-    int lookahead = _codePoints[_idx];
+    final PathSegmentData segment = new PathSegmentData();
+    final int lookahead = _codePoints[_idx];
     SvgPathSegType command = AsciiConstants.mapLetterToSegmentType(lookahead);
     if (_previousCommand == SvgPathSegType.unknown) {
       // First command has to be a moveto.
@@ -653,7 +674,7 @@ class SvgPathNormalizer {
   SvgPathSegType _lastCommand = SvgPathSegType.unknown;
 
   void emitSegment(PathSegmentData segment, Path path) {
-    PathSegmentData normSeg = segment;
+    final PathSegmentData normSeg = segment;
     assert(
         normSeg.command == SvgPathSegType.close || normSeg.targetPoint != null);
     assert(_currentPoint != null);
@@ -806,24 +827,24 @@ class SvgPathNormalizer {
       return false;
     }
 
-    double angle = arcSegment.arcAngle;
+    final double angle = arcSegment.arcAngle;
 
-    Offset midPointDistance = currentPoint - arcSegment.targetPoint;
+    final Offset midPointDistance = currentPoint - arcSegment.targetPoint;
     midPointDistance.scale(0.5, 0.5);
 
-    Matrix4 pointTransform = new Matrix4.identity();
+    final Matrix4 pointTransform = new Matrix4.identity();
     pointTransform.rotateZ(-angle);
 
-    Offset transformedMidPoint = _mapPoint(
+    final Offset transformedMidPoint = _mapPoint(
         pointTransform, new Offset(midPointDistance.dx, midPointDistance.dy));
-    double squareRx = rx * rx;
-    double squareRy = ry * ry;
-    double squareX = transformedMidPoint.dx * transformedMidPoint.dx;
-    double squareY = transformedMidPoint.dy * transformedMidPoint.dy;
+    final double squareRx = rx * rx;
+    final double squareRy = ry * ry;
+    final double squareX = transformedMidPoint.dx * transformedMidPoint.dx;
+    final double squareY = transformedMidPoint.dy * transformedMidPoint.dy;
 
     // Check if the radii are big enough to draw the arc, scale radii if not.
     // http://www.w3.org/TR/SVG/implnote.html#ArcCorrectionOutOfRangeRadii
-    double radiiScale = squareX / squareRx + squareY / squareRy;
+    final double radiiScale = squareX / squareRx + squareY / squareRy;
     if (radiiScale > 1) {
       rx *= sqrt(radiiScale);
       ry *= sqrt(radiiScale);
@@ -835,26 +856,30 @@ class SvgPathNormalizer {
 
     Offset point1 = _mapPoint(pointTransform, currentPoint);
     Offset point2 = _mapPoint(pointTransform, arcSegment.targetPoint);
-    Offset delta = point2 - point1;
+    final Offset delta = point2 - point1;
 
-    double d = delta.dx * delta.dx + delta.dy * delta.dy;
-    double scaleFactorSquared = max(1 / d - 0.25, 0.0);
+    final double d = delta.dx * delta.dx + delta.dy * delta.dy;
+    final double scaleFactorSquared = max(1 / d - 0.25, 0.0);
 
     double scaleFactor = sqrt(scaleFactorSquared);
-    if (arcSegment.arcSweep == arcSegment.arcLarge) scaleFactor = -scaleFactor;
+    if (arcSegment.arcSweep == arcSegment.arcLarge) {
+      scaleFactor = -scaleFactor;
+    }
 
     delta.scale(scaleFactor, scaleFactor);
-    Offset centerPoint = point1 + point2;
+    final Offset centerPoint = point1 + point2;
     centerPoint.scale(0.5, 0.5);
     centerPoint.translate(-delta.dx, delta.dy);
 
-    double theta1 = (point1 - centerPoint).direction;
-    double theta2 = (point2 - centerPoint).direction;
+    final double theta1 = (point1 - centerPoint).direction;
+    final double theta2 = (point2 - centerPoint).direction;
 
     double thetaArc = theta2 - theta1;
-    if (thetaArc < 0 && arcSegment.arcSweep)
+    if (thetaArc < 0 && arcSegment.arcSweep) {
       thetaArc += _twoPiFloat;
-    else if (thetaArc > 0 && !arcSegment.arcSweep) thetaArc -= _twoPiFloat;
+    } else if (thetaArc > 0 && !arcSegment.arcSweep) {
+      thetaArc -= _twoPiFloat;
+    }
 
     pointTransform.setIdentity();
     pointTransform.rotateZ(angle);
@@ -869,7 +894,9 @@ class SvgPathNormalizer {
       final double endTheta = theta1 + (i + 1) * thetaArc / segments;
 
       final double t = (8 / 6.0) * tan(0.25 * (endTheta - startTheta));
-      if (!t.isFinite) return false;
+      if (!t.isFinite) {
+        return false;
+      }
       final double sinStartTheta = sin(startTheta);
       final double cosStartTheta = cos(startTheta);
       final double sinEndTheta = sin(endTheta);
@@ -899,8 +926,8 @@ class SvgPathNormalizer {
   Offset _mapPoint(Matrix4 transform, Offset point) {
     // a, b, 0.0, 0.0, c, d, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, e, f, 0.0, 1.0
     return new Offset(
-      (transform[0] * point.dx + transform[4] * point.dy + transform[12]),
-      (transform[1] * point.dx + transform[5] * point.dy + transform[13]),
+      transform[0] * point.dx + transform[4] * point.dy + transform[12],
+      transform[1] * point.dx + transform[5] * point.dy + transform[13],
     );
   }
 }
