@@ -10,9 +10,10 @@ addons:
       - libstdc++6
       - fonts-droid
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b master 
+  - git clone https://github.com/flutter/flutter.git -b dev 
   - ./flutter/bin/flutter doctor
 script:
+  - ./flutter/bin/flutter analyze
   - ./flutter/bin/flutter test
 cache:
   directories:
