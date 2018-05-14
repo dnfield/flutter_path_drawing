@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -48,6 +49,8 @@ class PathTestPainter extends CustomPainter {
   final Path p = parseSvgPathData(
       '''M19.0281,19.40466 20.7195,19.40466 20.7195,15.71439 24.11486,15.71439 24.11486,14.36762 20.7195,14.36762 
 20.7195,11.68641 24.74134,11.68641 24.74134,10.34618 19.0281,10.34618 	z''');
+  final Path p5 = parseSvgPathData(
+      '''M 15 15.5 A 0.5 1.5 0 1 1  14,15.5 A 0.5 1.5 0 1 1  15 15.5 z''');
   final Path p2 = new Path()
     ..moveTo(10.0, 10.0)
     ..lineTo(100.0, 100.0)
@@ -62,15 +65,23 @@ class PathTestPainter extends CustomPainter {
     ..style = PaintingStyle.stroke;
   final Paint red = new Paint()
     ..color = Colors.red
-    ..strokeWidth = 1.0
+    ..strokeWidth = 5.0
     ..style = PaintingStyle.stroke;
 
   @override
   bool shouldRepaint(PathTestPainter old) => true;
 
+  static Float64List matrix(
+      double a, double b, double c, double d, double e, double f) {
+    return new Matrix4(
+            a, b, 0.0, 0.0, c, d, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, e, f, 0.0, 1.0)
+        .storage;
+  }
+
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawPath(p, red);
+    canvas.drawPath(
+        p5.transform(matrix(0.866, 0.5, -0.5, 0.866, 9.693, -5.173)), red);
     canvas.drawPath(p2, black);
     canvas.translate(0.0, -100.0);
     canvas.drawPath(
@@ -79,11 +90,11 @@ class PathTestPainter extends CustomPainter {
                 <double>[5.0, 10.0, 15.0, 15.0]),
             dashOffset: new DashOffset.percentage(.05)),
         red);
-    // canvas
-    //   ..scale(5.0, 5.0)
-    //   ..translate(-50.0, -35.0);
-    // canvas.drawPath(p3, red);
-    //canvas.drawPath(p2, red);
-    //canvas.drawPath(Path.combine(PathOperation.intersect, p2, p3), black);
+    canvas
+      ..scale(5.0, 5.0)
+      ..translate(-50.0, -35.0);
+    canvas.drawPath(p3, red);
+    canvas.drawPath(p2, red);
+    canvas.drawPath(Path.combine(PathOperation.intersect, p2, p3), black);
   }
 }

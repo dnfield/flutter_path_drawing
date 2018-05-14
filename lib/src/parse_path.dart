@@ -791,11 +791,6 @@ class SvgPathNormalizer {
         throw new StateError('Invalid command type in path');
     }
 
-    // if (normSeg.command != SvgPathSegType.arcToAbs) {
-    //
-    //   //consumer_.EmitSegment(normSeg);
-    // }
-
     _currentPoint = normSeg.targetPoint;
 
     if (!isCubicCommand(segment.command) &&
@@ -829,14 +824,20 @@ class SvgPathNormalizer {
 
     final double angle = arcSegment.arcAngle;
 
-    final Offset midPointDistance = currentPoint - arcSegment.targetPoint;
-    midPointDistance.scale(0.5, 0.5);
+    final Offset midPointDistance =
+        (currentPoint - arcSegment.targetPoint).scale(0.5, 0.5);
 
     final Matrix4 pointTransform = new Matrix4.identity();
     pointTransform.rotateZ(-angle);
 
     final Offset transformedMidPoint = _mapPoint(
-        pointTransform, new Offset(midPointDistance.dx, midPointDistance.dy));
+      pointTransform,
+      new Offset(
+        midPointDistance.dx,
+        midPointDistance.dy,
+      ),
+    );
+
     final double squareRx = rx * rx;
     final double squareRy = ry * ry;
     final double squareX = transformedMidPoint.dx * transformedMidPoint.dx;
@@ -845,39 +846,39 @@ class SvgPathNormalizer {
     // Check if the radii are big enough to draw the arc, scale radii if not.
     // http://www.w3.org/TR/SVG/implnote.html#ArcCorrectionOutOfRangeRadii
     final double radiiScale = squareX / squareRx + squareY / squareRy;
-    if (radiiScale > 1) {
+    if (radiiScale > 1.0) {
       rx *= sqrt(radiiScale);
       ry *= sqrt(radiiScale);
     }
-
     pointTransform.setIdentity();
-    pointTransform.scale(1 / rx, 1 / ry);
+
+    pointTransform.scale(1.0 / rx, 1.0 / ry);
     pointTransform.rotateZ(-angle);
 
     Offset point1 = _mapPoint(pointTransform, currentPoint);
     Offset point2 = _mapPoint(pointTransform, arcSegment.targetPoint);
-    final Offset delta = point2 - point1;
+    Offset delta = point2 - point1;
 
     final double d = delta.dx * delta.dx + delta.dy * delta.dy;
-    final double scaleFactorSquared = max(1 / d - 0.25, 0.0);
-
+    final double scaleFactorSquared = max(1.0 / d - 0.25, 0.0);
     double scaleFactor = sqrt(scaleFactorSquared);
+
     if (arcSegment.arcSweep == arcSegment.arcLarge) {
       scaleFactor = -scaleFactor;
     }
 
-    delta.scale(scaleFactor, scaleFactor);
-    final Offset centerPoint = point1 + point2;
-    centerPoint.scale(0.5, 0.5);
-    centerPoint.translate(-delta.dx, delta.dy);
+    delta = delta.scale(scaleFactor, scaleFactor);
+    final Offset centerPoint =
+        (point1 + point2).scale(0.5, 0.5).translate(-delta.dy, delta.dx);
 
     final double theta1 = (point1 - centerPoint).direction;
     final double theta2 = (point2 - centerPoint).direction;
 
     double thetaArc = theta2 - theta1;
-    if (thetaArc < 0 && arcSegment.arcSweep) {
+
+    if (thetaArc < 0.0 && arcSegment.arcSweep) {
       thetaArc += _twoPiFloat;
-    } else if (thetaArc > 0 && !arcSegment.arcSweep) {
+    } else if (thetaArc > 0.0 && !arcSegment.arcSweep) {
       thetaArc -= _twoPiFloat;
     }
 
@@ -887,13 +888,13 @@ class SvgPathNormalizer {
 
     // Some results of atan2 on some platform implementations are not exact
     // enough. So that we get more cubic curves than expected here. Adding 0.001f
-    // reduces the count of sgements to the correct count.
+    // reduces the count of segments to the correct count.
     final int segments = (thetaArc / (_piOverTwoFloat + 0.001)).abs().ceil();
     for (int i = 0; i < segments; ++i) {
       final double startTheta = theta1 + i * thetaArc / segments;
       final double endTheta = theta1 + (i + 1) * thetaArc / segments;
 
-      final double t = (8 / 6.0) * tan(0.25 * (endTheta - startTheta));
+      final double t = (8.0 / 6.0) * tan(0.25 * (endTheta - startTheta));
       if (!t.isFinite) {
         return false;
       }
@@ -903,12 +904,14 @@ class SvgPathNormalizer {
       final double cosEndTheta = cos(endTheta);
 
       point1 = new Offset(
-          cosStartTheta - t * sinStartTheta, sinStartTheta + t * cosStartTheta);
-      point1.translate(centerPoint.dx, centerPoint.dy);
-      final Offset targetPoint = new Offset(cosEndTheta, sinEndTheta);
-      targetPoint.translate(centerPoint.dx, centerPoint.dy);
-      point2 = targetPoint;
-      point2.translate(t * sinEndTheta, -t * cosEndTheta);
+        cosStartTheta - t * sinStartTheta,
+        sinStartTheta + t * cosStartTheta,
+      ).translate(centerPoint.dx, centerPoint.dy);
+      final Offset targetPoint = new Offset(
+        cosEndTheta,
+        sinEndTheta,
+      ).translate(centerPoint.dx, centerPoint.dy);
+      point2 = targetPoint.translate(t * sinEndTheta, -t * cosEndTheta);
 
       final PathSegmentData cubicSegment = new PathSegmentData();
       cubicSegment.command = SvgPathSegType.cubicToAbs;
@@ -926,8 +929,12 @@ class SvgPathNormalizer {
   Offset _mapPoint(Matrix4 transform, Offset point) {
     // a, b, 0.0, 0.0, c, d, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, e, f, 0.0, 1.0
     return new Offset(
-      transform[0] * point.dx + transform[4] * point.dy + transform[12],
-      transform[1] * point.dx + transform[5] * point.dy + transform[13],
+      transform.storage[0] * point.dx +
+          transform.storage[4] * point.dy +
+          transform.storage[12],
+      transform.storage[1] * point.dx +
+          transform.storage[5] * point.dy +
+          transform.storage[13],
     );
   }
 }
