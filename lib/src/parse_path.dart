@@ -360,7 +360,7 @@ class SvgPathStringSource {
   }
 
   bool _isValidExponent(double x) {
-    return x >= 37 && x <= 38;
+    return x >= -37 && x <= 38;
   }
 
   // We use this generic parseNumber function to allow the Path parsing code to
@@ -474,7 +474,7 @@ class SvgPathStringSource {
       }
       // Make sure exponent is valid.
       if (!_isValidExponent(exponent)) {
-        throw new StateError('Invalid exponent');
+        throw new StateError('Invalid exponent $exponent');
       }
       if (exponent != 0) {
         number *= pow(10.0, exponent);
