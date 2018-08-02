@@ -63,34 +63,35 @@ final Paint whiteFillPaint = new Paint()
   ..style = PaintingStyle.fill;
 
 Future<Uint8List> getPathPngBytes(String pathString) async {
-    final PictureRecorder rec = new PictureRecorder();
-    final Canvas canvas = new Canvas(rec);
+  final PictureRecorder rec = new PictureRecorder();
+  final Canvas canvas = new Canvas(rec);
 
-    final Path p = parseSvgPathData(pathString);
-    assert(p != null);
+  final Path p = parseSvgPathData(pathString);
+  assert(p != null);
 
-    final Rect bounds = p.getBounds();
+  final Rect bounds = p.getBounds();
 
-    canvas.drawPaint(whiteFillPaint);
+  canvas.drawPaint(whiteFillPaint);
 
-    canvas.drawPath(p, blackStrokePaint);
+  canvas.drawPath(p, blackStrokePaint);
 
-    final Picture pict = rec.endRecording();
+  final Picture pict = rec.endRecording();
 
-    final int imgWidth =
-        (max(max(bounds.width, bounds.right), 5.0) + 10.0).ceil();
-    final int imgHeight =
-        (max(max(bounds.height, bounds.bottom), 5.0) + 10.0).ceil();
+  final int imgWidth =
+      (max(max(bounds.width, bounds.right), 5.0) + 10.0).ceil();
+  final int imgHeight =
+      (max(max(bounds.height, bounds.bottom), 5.0) + 10.0).ceil();
 
-    final Image image = pict.toImage(imgWidth, imgHeight);
-    final ByteData bytes = await image.toByteData(format: ImageByteFormat.png);
+  final Image image = pict.toImage(imgWidth, imgHeight);
+  final ByteData bytes = await image.toByteData(format: ImageByteFormat.png);
 
-    return bytes.buffer.asUint8List();
+  return bytes.buffer.asUint8List();
 }
 
 Future<Null> main() async {
   for (int i = 0; i < paths.length; i++) {
-    final String pathName = join(dirname(Platform.script.path), 'golden', '$i.png');
+    final String pathName =
+        join(dirname(Platform.script.path), 'golden', '$i.png');
     final File output = new File(pathName);
     await output.writeAsBytes(await getPathPngBytes(paths[i]));
   }
