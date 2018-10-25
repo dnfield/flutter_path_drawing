@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 0.3.1
+
+- Consume updated version of parsing library
+- Fix layout to conform to newer Flutter package requirements.
+
 ## 0.3.0
 
 - Split out parsing logic into separate package that does not depend on Flutter
