@@ -51,9 +51,6 @@ enum _DashOffsetType { Absolute, Percentage }
 ///
 /// The internal value will be guaranteed to not be null.
 class DashOffset {
-  final double _rawVal;
-  final _DashOffsetType _dashOffsetType;
-
   /// Create a DashOffset that will be measured as a percentage of the length
   /// of the segment being dashed.
   ///
@@ -70,6 +67,9 @@ class DashOffset {
   const DashOffset.absolute(double start)
       : _rawVal = start ?? 0.0,
         _dashOffsetType = _DashOffsetType.Absolute;
+
+  final double _rawVal;
+  final _DashOffsetType _dashOffsetType;
 
   double _calculate(double length) {
     return _dashOffsetType == _DashOffsetType.Absolute

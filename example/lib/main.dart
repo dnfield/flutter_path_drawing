@@ -146,7 +146,7 @@ class PathTestPainter extends CustomPainter {
     ..style = PaintingStyle.stroke;
 
   @override
-  bool shouldRepaint(PathTestPainter old) => true;
+  bool shouldRepaint(PathTestPainter oldDelegate) => true;
 
   static Float64List matrix(
       double a, double b, double c, double d, double e, double f) {
