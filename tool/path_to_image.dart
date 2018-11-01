@@ -55,17 +55,17 @@ const List<String> paths = <String>[
   'M1,1A2,3,4,0,0,5,6 7,8,9,0,0,10,11',
   'm18 11.8a.41.41 0 0 1 .24.08l.59.43h.05.72a.4.4 0 0 1 .39.28l.22.69a.08.08 0 0 0 0 0l.58.43a.41.41 0 0 1 .15.45l-.22.68a.09.09 0 0 0 0 .07l.22.68a.4.4 0 0 1 -.15.46l-.58.42a.1.1 0 0 0 0 0l-.22.68a.41.41 0 0 1 -.38.29h-.79l-.58.43a.41.41 0 0 1 -.24.08.46.46 0 0 1 -.24-.08l-.58-.43h-.06-.72a.41.41 0 0 1 -.39-.28l-.22-.68a.1.1 0 0 0 0 0l-.58-.43a.42.42 0 0 1 -.15-.46l.23-.67v-.02l-.29-.68a.43.43 0 0 1 .15-.46l.58-.42a.1.1 0 0 0 0-.05l.27-.69a.42.42 0 0 1 .39-.28h.78l.58-.43a.43.43 0 0 1 .25-.09m0-1a1.37 1.37 0 0 0 -.83.27l-.34.25h-.43a1.42 1.42 0 0 0 -1.34 1l-.13.4-.35.25a1.42 1.42 0 0 0 -.51 1.58l.13.4-.13.4a1.39 1.39 0 0 0 .52 1.59l.34.25.13.4a1.41 1.41 0 0 0 1.34 1h.43l.34.26a1.44 1.44 0 0 0 .83.27 1.38 1.38 0 0 0 .83-.28l.35-.24h.43a1.4 1.4 0 0 0 1.33-1l.13-.4.35-.26a1.39 1.39 0 0 0 .51-1.57l-.13-.4.13-.41a1.4 1.4 0 0 0 -.51-1.56l-.35-.25-.13-.41a1.4 1.4 0 0 0 -1.34-1h-.42l-.34-.26a1.43 1.43 0 0 0 -.84-.28z',
 ];
-final Paint blackStrokePaint = new Paint()
+final Paint blackStrokePaint = Paint()
   ..color = const Color.fromARGB(255, 0, 0, 0)
   ..strokeWidth = 1.0
   ..style = PaintingStyle.stroke;
-final Paint whiteFillPaint = new Paint()
+final Paint whiteFillPaint = Paint()
   ..color = const Color.fromARGB(255, 255, 255, 255)
   ..style = PaintingStyle.fill;
 
 Future<Uint8List> getPathPngBytes(String pathString) async {
-  final PictureRecorder rec = new PictureRecorder();
-  final Canvas canvas = new Canvas(rec);
+  final PictureRecorder rec = PictureRecorder();
+  final Canvas canvas = Canvas(rec);
 
   final Path p = parseSvgPathData(pathString);
   assert(p != null);
@@ -94,7 +94,7 @@ Future<Null> main() async {
   for (int i = 0; i < paths.length; i++) {
     final String pathName =
         join(dirname(Platform.script.path), 'golden', '$i.png');
-    final File output = new File(pathName);
+    final File output = File(pathName);
     await output.writeAsBytes(await getPathPngBytes(paths[i]));
   }
 }

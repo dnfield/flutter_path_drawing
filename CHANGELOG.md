@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 0.4.0
+
+- Implement path trimming routine
+- Update example to demonstrate dash paths and trim paths.
+- Remove `new` keyword.
+
 ## 0.3.1
 
 - Consume updated version of parsing library

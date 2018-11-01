@@ -11,8 +11,11 @@ import 'package:meta/meta.dart';
 ///
 /// Passing in a null `source` will result in a null result.  Passing a `source`
 /// that is an empty path will return the `source`.
-Path dashPath(Path source,
-    {@required CircularIntervalList<double> dashArray, DashOffset dashOffset}) {
+Path dashPath(
+  Path source, {
+  @required CircularIntervalList<double> dashArray,
+  DashOffset dashOffset,
+}) {
   if (source == null) {
     return null;
   }
@@ -22,7 +25,7 @@ Path dashPath(Path source,
 
   bool some = false;
 
-  final Path dest = new Path();
+  final Path dest = Path();
   for (final PathMetric metric in source.computeMetrics()) {
     double distance = dashOffset._calculate(metric.length);
     bool draw = true;

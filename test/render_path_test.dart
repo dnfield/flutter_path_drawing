@@ -11,7 +11,7 @@ void main() {
   test('Path rendering matches golden files', () async {
     for (int i = 0; i < paths.length; i++) {
       final Uint8List bytes = await getPathPngBytes(paths[i]);
-      final File golden = new File(join(
+      final File golden = File(join(
           dirname(Platform.script.path),
           dirname(Platform.script.path).endsWith('test') ? '..' : '',
           'golden',

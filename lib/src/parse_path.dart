@@ -11,20 +11,22 @@ Path parseSvgPathData(String svg) {
     return null;
   }
   if (svg == '') {
-    return new Path();
+    return Path();
   }
 
-  final SvgPathStringSource parser = new SvgPathStringSource(svg);
-  final FlutterPathProxy path = new FlutterPathProxy();
-  final SvgPathNormalizer normalizer = new SvgPathNormalizer();
+  final SvgPathStringSource parser = SvgPathStringSource(svg);
+  final FlutterPathProxy path = FlutterPathProxy();
+  final SvgPathNormalizer normalizer = SvgPathNormalizer();
   for (PathSegmentData seg in parser.parseSegments()) {
     normalizer.emitSegment(seg, path);
   }
   return path.path;
 }
 
+/// A [PathProxy] that takes the output of the path parsing library
+/// and maps it to a dart:ui [Path].
 class FlutterPathProxy extends PathProxy {
-  FlutterPathProxy({Path p}) : path = p ?? new Path();
+  FlutterPathProxy({Path p}) : path = p ?? Path();
 
   final Path path;
 

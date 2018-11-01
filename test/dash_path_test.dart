@@ -6,7 +6,7 @@ void main() {
   test('CircularList tests', () {
     final List<int> ints = <int>[1, 2, 3];
 
-    final CircularIntervalList<int> list = new CircularIntervalList<int>(ints);
+    final CircularIntervalList<int> list = CircularIntervalList<int>(ints);
 
     expect(list.next, 1);
     expect(list.next, 2);
