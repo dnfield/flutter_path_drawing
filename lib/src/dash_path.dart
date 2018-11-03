@@ -10,20 +10,19 @@ import 'package:meta/meta.dart';
 /// `dashOffset` specifies an initial starting point for the dashing.
 ///
 /// Passing in a null `source` will result in a null result.  Passing a `source`
-/// that is an empty path will return the `source`.
+/// that is an empty path will return an empty path.
 Path dashPath(
   Path source, {
   @required CircularIntervalList<double> dashArray,
   DashOffset dashOffset,
 }) {
+  assert(dashArray != null);
   if (source == null) {
     return null;
   }
 
   dashOffset = dashOffset ?? const DashOffset.absolute(0.0);
   // TODO: Is there some way to determine how much of a path would be visible today?
-
-  bool some = false;
 
   final Path dest = Path();
   for (final PathMetric metric in source.computeMetrics()) {
@@ -37,11 +36,6 @@ Path dashPath(
       distance += len;
       draw = !draw;
     }
-    some = true;
-  }
-
-  if (!some) {
-    return source;
   }
 
   return dest;

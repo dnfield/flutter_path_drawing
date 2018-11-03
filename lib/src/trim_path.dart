@@ -22,8 +22,8 @@ enum PathTrimOrigin {
 /// The `origin` parameter allows the user to control which end of the path will be
 /// trimmed.  It must not be null.
 ///
-/// If `source` is null, null will be returned.  If the `source` Path has no
-/// segments, this method will return the `source` back to the caller.
+/// If `source` is null, null will be returned.  If `source` is empty, an empty
+/// path will be returned.
 Path trimPath(
   Path source,
   double percentage, {
@@ -47,7 +47,6 @@ Path trimPath(
     percentage = 1.0 - percentage;
   }
 
-  bool some = false;
   final Path dest = Path();
   for (final PathMetric metric in source.computeMetrics()) {
     switch (origin) {
@@ -64,14 +63,9 @@ Path trimPath(
         );
         break;
     }
-    some = true;
     if (firstOnly) {
       break;
     }
-  }
-
-  if (!some) {
-    return source;
   }
 
   return dest;
