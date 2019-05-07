@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1
+
+- Consume latest path_parsing version.
+
 ## 0.4.0
 
 - Implement path trimming routine

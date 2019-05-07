@@ -9,3 +9,5 @@ build/
 coverage/
 
 .flutter-plugins
+
+pubspec.lock
