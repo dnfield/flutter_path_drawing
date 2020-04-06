@@ -16,7 +16,15 @@ Planned for future release(s):
 
 ## Example
 
-Create CustomPainter:
+Parse some path from svg string:
+
+```dart
+import 'package:path_drawing/path_drawing.dart';
+
+final trianglePath = parseSvgPathData('M150 0 L75 200 L225 200 Z');
+```
+
+Create [CustomPainter](https://api.flutter.dev/flutter/rendering/CustomPainter-class.html):
 
 ```dart
 class FilledPathPainter extends CustomPainter {
@@ -47,13 +55,7 @@ class FilledPathPainter extends CustomPainter {
 }
 ```
 
-Parse a path from svg string:
-
-```dart
-final trianglePath = parseSvgPathData('M150 0 L75 200 L225 200 Z');
-```
-
-Use it in widgets:
+Use it inside [CustomPaint](https://api.flutter.dev/flutter/widgets/CustomPaint-class.html):
 
 ```dart
 class MyWidget extends StatelessWidget {
@@ -72,4 +74,4 @@ class MyWidget extends StatelessWidget {
 }
 ```
 
-Another examples can be found in [example folder](example/lib/main.dart)
+More examples can be found in [example folder](example/lib/main.dart)
