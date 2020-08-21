@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.4.1+1
+
+- Set uses-material-design to false.
+
 ## 0.4.1
 
 - Consume latest path_parsing version.
