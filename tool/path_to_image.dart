@@ -68,7 +68,6 @@ Future<Uint8List> getPathPngBytes(String pathString) async {
   final Canvas canvas = Canvas(rec);
 
   final Path p = parseSvgPathData(pathString);
-  assert(p != null);
 
   final Rect bounds = p.getBounds();
   const double scaleFactor = 5.0;
@@ -84,13 +83,13 @@ Future<Uint8List> getPathPngBytes(String pathString) async {
   final int imgHeight =
       (max(bounds.height, bounds.bottom) * 2 * scaleFactor).ceil();
 
-  final Image image = pict.toImage(imgWidth, imgHeight);
-  final ByteData bytes = await image.toByteData(format: ImageByteFormat.png);
+  final Image image = await pict.toImage(imgWidth, imgHeight);
+  final ByteData bytes = (await image.toByteData(format: ImageByteFormat.png))!;
 
   return bytes.buffer.asUint8List();
 }
 
-Future<Null> main() async {
+Future<void> main() async {
   for (int i = 0; i < paths.length; i++) {
     final String pathName =
         join(dirname(Platform.script.path), 'golden', '$i.png');

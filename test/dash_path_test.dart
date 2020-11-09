@@ -23,17 +23,14 @@ void main() {
     final CircularIntervalList<double> dashArray =
         CircularIntervalList<double>(<double>[1.0, 5.0]);
 
-    expect(
-      () => dashPath(singleSegmentLine, dashArray: null),
-      throwsA(const TypeMatcher<AssertionError>()),
-    );
     expect(dashPath(singleSegmentLine, dashArray: dashArray), isNotNull);
     expect(
-      dashPath(singleSegmentLine,
-          dashArray: dashArray, dashOffset: DashOffset.percentage(5.0)),
+      dashPath(
+        singleSegmentLine,
+        dashArray: dashArray,
+        dashOffset: DashOffset.percentage(5.0),
+      ),
       isNotNull,
     );
-
-    expect(dashPath(null, dashArray: dashArray), isNull);
   });
 }
