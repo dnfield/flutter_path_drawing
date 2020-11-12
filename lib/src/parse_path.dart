@@ -4,12 +4,8 @@ import 'package:path_parsing/path_parsing.dart';
 
 /// Creates a [Path] object from an SVG data string.
 ///
-/// Passing a null string as `svg` will result in a null path.
 /// Passing an empty string will result in an empty path.
 Path parseSvgPathData(String svg) {
-  if (svg == null) {
-    return null;
-  }
   if (svg == '') {
     return Path();
   }
@@ -26,7 +22,7 @@ Path parseSvgPathData(String svg) {
 /// A [PathProxy] that takes the output of the path parsing library
 /// and maps it to a dart:ui [Path].
 class FlutterPathProxy extends PathProxy {
-  FlutterPathProxy({Path p}) : path = p ?? Path();
+  FlutterPathProxy({Path? p}) : path = p ?? Path();
 
   final Path path;
 

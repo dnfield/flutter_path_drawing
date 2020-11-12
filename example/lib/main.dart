@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -28,9 +28,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int index;
-  double _trimPercent;
-  PathTrimOrigin _trimOrigin;
+  late int index;
+  late double _trimPercent;
+  late PathTrimOrigin _trimOrigin;
 
   @override
   void initState() {
@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void toggleTrimOrigin(PathTrimOrigin value) {
+  void toggleTrimOrigin(PathTrimOrigin? value) {
     setState(() {
       switch (_trimOrigin) {
         case PathTrimOrigin.begin:
@@ -212,7 +212,7 @@ class DashPathPainter extends CustomPainter {
     ..moveTo(10.0, 10.0)
     ..lineTo(100.0, 100.0)
     ..quadraticBezierTo(125.0, 20.0, 200.0, 100.0)
-    ..addRect(Rect.fromLTWH(0.0, 0.0, 50.0, 50.0));
+    ..addRect(const Rect.fromLTWH(0.0, 0.0, 50.0, 50.0));
 
   @override
   bool shouldRepaint(DashPathPainter oldDelegate) => true;
