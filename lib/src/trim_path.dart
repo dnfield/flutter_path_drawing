@@ -22,20 +22,17 @@ enum PathTrimOrigin {
 /// The `origin` parameter allows the user to control which end of the path will be
 /// trimmed.  It must not be null.
 ///
-/// If `source` is null, null will be returned.  If `source` is empty, an empty
-/// path will be returned.
+/// If `source` is empty, an empty path will be returned.
 Path trimPath(
   Path source,
   double percentage, {
   bool firstOnly = true,
   PathTrimOrigin origin = PathTrimOrigin.begin,
 }) {
-  assert(percentage != null);
-  assert(firstOnly != null);
-  assert(origin != null);
-  if (source == null) {
-    return null;
-  }
+  assert(percentage != null); // ignore: unnecessary_null_comparison
+  assert(firstOnly != null); // ignore: unnecessary_null_comparison
+  assert(origin != null); // ignore: unnecessary_null_comparison
+
   percentage = percentage.clamp(0.0, 1.0);
   if (percentage == 1.0) {
     return Path();

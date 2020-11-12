@@ -20,6 +20,8 @@
 # in sync with this file.
 
 analyzer:
+  enable-experiment:
+    - non-nullable
   strong-mode:
     implicit-dynamic: false
   errors:
@@ -102,7 +104,6 @@ linter:
     # - parameter_assignments # we do this commonly
     - prefer_adjacent_string_concatenation
     - prefer_asserts_in_initializer_lists
-    - prefer_bool_in_asserts
     - prefer_collection_literals
     - prefer_conditional_assignment
     - prefer_const_constructors
@@ -127,7 +128,6 @@ linter:
     - slash_for_doc_comments
     - sort_constructors_first
     - sort_unnamed_constructors_first
-    - super_goes_last
     - test_types_in_equals
     - throw_in_finally
     # - type_annotate_public_apis # subset of always_specify_types
@@ -148,3 +148,4 @@ linter:
     # - use_string_buffers # https://github.com/dart-lang/linter/pull/664
     # - use_to_and_as_if_applicable # has false positives, so we prefer to catch this by code-review
     - valid_regexps
+    - unnecessary_new
