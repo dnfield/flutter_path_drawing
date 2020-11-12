@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.0-nullsafety.0
+
+- Null safe migration, general modernization
+
 ## 0.4.1+1
 
 - Set uses-material-design to false.
