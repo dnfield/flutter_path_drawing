@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.0
+
+- Stable nullsafe release.
+
 ## 0.5.0-nullsafety.0
 
 - Null safe migration, general modernization
