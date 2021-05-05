@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 0.5.1
+
+- Bump path_parsing dependency.
+
 ## 0.5.0
 
 - Stable nullsafe release.
