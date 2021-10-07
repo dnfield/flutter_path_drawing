@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui' show Path;
 
 import 'package:path_drawing/path_drawing.dart';
@@ -32,5 +34,21 @@ void main() {
       ),
       isNotNull,
     );
+  });
+
+  group('DashOffset supports value equality', () {
+    test('absolute', () {
+      expect(
+        DashOffset.absolute(20),
+        equals(DashOffset.absolute(20)),
+      );
+    });
+
+    test('percentage', () {
+      expect(
+        DashOffset.percentage(0.2),
+        equals(DashOffset.percentage(0.2)),
+      );
+    });
   });
 }
