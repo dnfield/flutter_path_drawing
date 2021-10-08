@@ -64,6 +64,20 @@ class DashOffset {
         ? _rawVal
         : length * _rawVal;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+
+    return other is DashOffset &&
+        other._rawVal == _rawVal &&
+        other._dashOffsetType == _dashOffsetType;
+  }
+
+  @override
+  int get hashCode => hashValues(_rawVal, _dashOffsetType);
 }
 
 /// A circular array of dash offsets and lengths.
