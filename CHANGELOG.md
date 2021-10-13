@@ -1,9 +1,12 @@
 # CHANGELOG
 
-## 0.5.0+1
+## 0.5.1+1
 
 - Make `DashOffset` comparable.
 
+## 0.5.1
+
+- Bump path_parsing dependency.
 ## 0.5.0
 
 - Stable nullsafe release.
