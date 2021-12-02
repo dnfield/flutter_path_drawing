@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 1.0.0
+
+- Stable release.
+
 ## 0.5.1+1
 
 - Make `DashOffset` comparable.
