@@ -17,6 +17,7 @@ void main() {
         'golden',
         '$i.png',
       ));
+      golden.writeAsBytesSync(bytes);
       final Uint8List goldenBytes = await golden.readAsBytes();
 
       expect(bytes, orderedEquals(goldenBytes));

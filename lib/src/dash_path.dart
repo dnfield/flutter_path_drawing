@@ -77,7 +77,7 @@ class DashOffset {
   }
 
   @override
-  int get hashCode => hashValues(_rawVal, _dashOffsetType);
+  int get hashCode => Object.hash(_rawVal, _dashOffsetType);
 }
 
 /// A circular array of dash offsets and lengths.
