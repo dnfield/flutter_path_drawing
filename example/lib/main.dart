@@ -1,11 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:path_drawing/path_drawing.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +24,7 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -78,9 +78,9 @@ class _MyHomePageState extends State<MyHomePage> {
           title: Text(widget.title),
           bottom: const TabBar(
             tabs: <Tab>[
-              const Tab(text: 'Path Trim'),
-              const Tab(text: 'Path Dash'),
-              const Tab(text: 'Path Parse'),
+              Tab(text: 'Path Trim'),
+              Tab(text: 'Path Dash'),
+              Tab(text: 'Path Parse'),
             ],
           ),
         ),

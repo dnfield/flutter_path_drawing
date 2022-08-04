@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## 1.0.1
+
+- Bump path parsing dependency to fix bugs in path parsing. Update goldens.
+- Analysis cleanup.
+- Remove unnecessary platform folders from example.
+
 ## 1.0.0
 
 - Stable release.
@@ -11,6 +17,7 @@
 ## 0.5.1
 
 - Bump path_parsing dependency.
+
 ## 0.5.0
 
 - Stable nullsafe release.
